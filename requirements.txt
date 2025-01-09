@@ -5,7 +5,8 @@ djangorestframework
 djangorestframework-simplejwt
 dj-rest-auth
 django-cors-headers
-psycopg-binary
+psycopg[binary]
 django-filter
 python-decouple
 markdown
+drf-yasg
