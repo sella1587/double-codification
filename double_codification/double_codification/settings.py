@@ -38,6 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'api',
+    'ihm',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    "crispy_forms",
+    "crispy_tailwind",
+    
 ]
 
 MIDDLEWARE = [
@@ -49,6 +57,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 ROOT_URLCONF = 'double_codification.urls'
 
@@ -76,9 +91,17 @@ WSGI_APPLICATION = 'double_codification.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dvdrental',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+        'PORT': '5432'
+        # 'OPTIONS':{
+        #     'options': '-c search_path=django,api'
+        #}
     }
+    
 }
 
 
