@@ -15,8 +15,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
+from django.urls import path, include
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from ihm.views import index
+schema_view = get_schema_view(
+    openapi.Info(
+        title="API Documentation",
+        default_version="v1",
+        description="Documentation interactive de l'API Double Codification",
+        terms_of_service="https://www.example.com/terms/",
+        contact=openapi.Contact(email="razanajatovocela@gmail.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 urlpatterns = [
+    path('', index, name='home'),
     path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),  # URL de votre app API
+    # URL de Swagger
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # URL alternative : Redoc
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
