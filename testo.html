@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <script src="" async defer></script>
+        <script>
+            $(document).ready(function () {
+                var table = $('#example').DataTable();
+            
+                // Gestion du changement de type de filtre pour chaque colonne
+                $('#filter-container').on('change', '.filter-select', function () {
+                    var columnIndex = $(this).data('column');
+                    var filterType = $(this).val();
+            
+                    // Afficher/masquer les champs nécessaires pour chaque type de filtre
+                    var minInput = $('.min-value[data-column="' + columnIndex + '"]');
+                    var maxInput = $('.max-value[data-column="' + columnIndex + '"]');
+                    var textInput = $('.filter-input[data-column="' + columnIndex + '"]');
+            
+                    if (filterType === "between") {
+                        minInput.show();
+                        maxInput.show();
+                        textInput.hide();
+                    } else {
+                        minInput.hide();
+                        maxInput.hide();
+                        textInput.show();
+                    }
+                });
+            
+                // Appliquer les filtres lorsque l'utilisateur saisit ou change une valeur
+                $('#filter-container').on('input change', '.filter-input, .min-value, .max-value', function () {
+                    var columnIndex = $(this).data('column');
+                    var filterType = $('.filter-select[data-column="' + columnIndex + '"]').val();
+                    var filterValue = $('.filter-input[data-column="' + columnIndex + '"]').val();
+                    var minValue = parseFloat($('.min-value[data-column="' + columnIndex + '"]').val());
+                    var maxValue = parseFloat($('.max-value[data-column="' + columnIndex + '"]').val());
+            
+                    // Réinitialiser les filtres existants
+                    $.fn.dataTable.ext.search = [];
+                    
+                    // Appliquer le filtre en fonction du type
+                    if (filterType === "greater_than" && !isNaN(minValue)) {
+                        $.fn.dataTable.ext.search.push(function (settings, data) {
+                            return parseFloat(data[columnIndex]) > minValue;
+                        });
+                    } else if (filterType === "less_than" && !isNaN(maxValue)) {
+                        $.fn.dataTable.ext.search.push(function (settings, data) {
+                            return parseFloat(data[columnIndex]) < maxValue;
+                        });
+                    } else if (filterType === "between" && !isNaN(minValue) && !isNaN(maxValue)) {
+                        $.fn.dataTable.ext.search.push(function (settings, data) {
+                            var cellValue = parseFloat(data[columnIndex]) || 0;
+                            return cellValue >= minValue && cellValue <= maxValue;
+                        });
+                    } else if (filterType === "contains") {
+                        table.column(columnIndex).search(filterValue).draw();
+                    } else if (filterType === "not_contains") {
+                        table.column(columnIndex).search("^((?!" + filterValue + ").)*$", true, false).draw();
+                    } else if (filterType === "starts_with") {
+                        table.column(columnIndex).search("^" + filterValue, true, false).draw();
+                    } else {
+                        table.column(columnIndex).search('').draw();
+                    }
+            
+                    table.draw();
+                });
+            });
+            
+            
+        </script>
+    </body>
+</html>
