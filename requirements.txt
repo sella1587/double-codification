@@ -10,3 +10,4 @@ django-filter
 python-decouple
 markdown
 drf-yasg
+pandas
