@@ -1,47 +1,35 @@
 from django.db import models
 
 class FacteurChoc(models.Model):
-    facteur_choc = models.CharField(max_length=5, unique=True)
-    created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now_add=True)
+    facteur_choc = models.CharField(max_length=5, unique=True)  
     class Meta:
         db_table = '"projet"."facteur_choc"'
 
 class DegreChoc(models.Model):
-    degre_choc  = models.CharField(max_length=50)
-    created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now_add=True)
+    degre_choc  = models.CharField(max_length=50)    
     class Meta:
         db_table = '"projet"."degre_choc"'
 
 class AvecPlot(models.Model):
-    avec_plots = models.CharField(max_length=150, unique=True)
-    created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now_add=True)
+    avec_plots = models.CharField(max_length=150, unique=True)   
     class Meta:
         db_table = '"projet"."avec_plots"'
 class AvecCarlingage(models.Model):
-    avec_carlingage = models.CharField(max_length=75)
-    created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now_add=True)
+    avec_carlingage = models.CharField(max_length=75)    
     class Meta:
         db_table = '"projet"."avec_carlingage"'
 
 class ProprieteDc(models.Model):
     property = models.CharField(max_length=50)
     sourcespriorities = models.CharField(max_length=250)
-    displaymode = models.CharField(max_length=50)
-    created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now_add=True)
+    displaymode = models.CharField(max_length=50)   
     class Meta:
         db_table = '"projet"."proriete_dc"'
 
 class Ouvrage(models.Model):
     ouvrage = models.CharField(max_length=25, unique=True)
     type = models.CharField(max_length=50)
-    code_client = models.CharField(max_length=150)
-    created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now_add=True)
+    code_client = models.CharField(max_length=150)  
     class Meta:
         db_table = "ouvrage"
     # add validation rules for code_client
@@ -50,22 +38,22 @@ class ObjectsFromCao(models.Model):
     uid = models.CharField(max_length=75, null=False)
     source = models.CharField(max_length=150, null=False)
     name = models.CharField(max_length=255, null=False)
-    component_type = models.CharField(max_length=75)
-    description = models.TextField()
-    trade = models.CharField(max_length=100)
-    function = models.CharField(max_length=50)
-    lot = models.CharField(max_length=50)
-    room = models.CharField(max_length=50)
-    code_client_ouvrage = models.CharField(max_length=75)
-    code_client_object = models.CharField(max_length=50)
-    code_fournisseur = models.CharField(max_length=50)
-    facteur_choc = models.ForeignKey(FacteurChoc, on_delete=models.DO_NOTHING)
-    degre_choc = models.ForeignKey(DegreChoc, on_delete=models.DO_NOTHING)
-    avec_plot = models.ForeignKey(AvecPlot, on_delete=models.DO_NOTHING)
-    avec_carlingage = models.ForeignKey(AvecCarlingage, on_delete=models.DO_NOTHING)
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now_add=True)
-    archived_date = models.DateTimeField()
+    component_type = models.CharField(max_length=75, null=True)
+    description = models.TextField(null=True)
+    trade = models.CharField(max_length=100, null=True)
+    function = models.CharField(max_length=50, null=True)
+    lot = models.CharField(max_length=50, null=True)
+    room = models.CharField(max_length=50, null=True)
+    code_client_ouvrage = models.CharField(max_length=75, null=True)
+    code_client_object = models.CharField(max_length=50, null=True)
+    code_fournisseur = models.CharField(max_length=50, null=True)
+    facteur_choc = models.CharField(max_length=4, null=True) #models.ForeignKey(FacteurChoc, db_column='facteur_choc', on_delete=models.DO_NOTHING, db_constraint=False)
+    degre_choc = models.CharField(max_length=4, null=True)#models.ForeignKey(DegreChoc, db_column='degre_choc', on_delete=models.DO_NOTHING, db_constraint=False)
+    avec_plots = models.CharField(max_length=4, null=True)#models.ForeignKey(AvecPlot, db_column='avec_plots', on_delete=models.DO_NOTHING, db_constraint=False)
+    avec_carlingage = models.CharField(max_length=4, null=True)#models.ForeignKey(AvecCarlingage, db_column='avec_carlingage', on_delete=models.DO_NOTHING, db_constraint=False)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    date_last_modified = models.DateTimeField(blank=True, null=True)
+    archived_date = models.DateTimeField(blank=True, null=True)
     class Meta:
         db_table = '"j35"."objects_from_cao"'
 
@@ -73,22 +61,23 @@ class ConsolidatedObjects(models.Model):
     uid = models.CharField(max_length=75, null=False)
     source = models.CharField(max_length=150, null=False)
     name = models.CharField(max_length=255, null=False)
-    component_type = models.CharField(max_length=75)
-    description = models.TextField()
-    trade = models.CharField(max_length=100)
-    function = models.CharField(max_length=50)
-    lot = models.CharField(max_length=50)
-    room = models.CharField(max_length=50)
-    code_client_ouvrage = models.CharField(max_length=75)
-    code_client_object = models.CharField(max_length=50)
-    code_fournisseur = models.CharField(max_length=50)
-    facteur_choc = models.ForeignKey(FacteurChoc, on_delete=models.DO_NOTHING)
-    degre_choc = models.ForeignKey(DegreChoc, on_delete=models.DO_NOTHING)
-    avec_plot = models.ForeignKey(AvecPlot, on_delete=models.DO_NOTHING)
-    avec_carlingage = models.ForeignKey(AvecCarlingage, on_delete=models.DO_NOTHING)
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now_add=True)
-    archived_date = models.DateTimeField()
+    component_type = models.CharField(max_length=75,null=True)
+    description = models.TextField(null=True)
+    trade = models.CharField(max_length=100,null=True)
+    function = models.CharField(max_length=50,null=True)
+    lot = models.CharField(max_length=50, null=True)
+    room = models.CharField(max_length=50, null=True)
+    code_client_ouvrage = models.CharField(max_length=75, null=True)
+    code_client_object = models.CharField(max_length=50, null=True)
+    code_fournisseur = models.CharField(max_length=50, null=True)
+    facteur_choc = models.CharField(max_length=4, null=True) #models.ForeignKey(FacteurChoc, db_column='facteur_choc', on_delete=models.DO_NOTHING, db_constraint=False)
+    degre_choc = models.CharField(max_length=4, null=True)#models.ForeignKey(DegreChoc, db_column='degre_choc', on_delete=models.DO_NOTHING, db_constraint=False)
+    avec_plots = models.CharField(max_length=4, null=True)#models.ForeignKey(AvecPlot, db_column='avec_plots', on_delete=models.DO_NOTHING, db_constraint=False)
+    avec_carlingage = models.CharField(max_length=4)#models.ForeignKey(AvecCarlingage, db_column='avec_carlingage', on_delete=models.DO_NOTHING, db_constraint=False)
+    creation_date = models.DateTimeField(auto_now_add=True, null=True)
+    date_last_modified = models.DateTimeField(blank=True, null=True)
+    archived_date = models.DateTimeField(blank=True, null=True)
+    
     class Meta:
         db_table = '"j35"."consolidated_objects"'
 
@@ -107,3 +96,13 @@ class OwnerCodeProperties(models.Model):
     fieldlabel = models.CharField(max_length=50)
     class Meta:
         db_table = '"j35"."owner_code_properties"'
+
+class ConsolidationRule(models.Model):
+    property_name = models.CharField(max_length=255)
+    sources_priorities = models.TextField(null=True, blank=True)  # Ex: "PID;SPEL;SM3D;USER"
+    display_mode = models.CharField(max_length=50, choices=[("First", "First"), ("All", "All")])
+
+    def __str__(self):
+        return self.property_name
+    class Meta:
+        db_table = "consolidation_rule"

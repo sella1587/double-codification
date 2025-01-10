@@ -15,7 +15,8 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -93,14 +94,14 @@ WSGI_APPLICATION = 'double_codification.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dvdrental',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432'
-        # 'OPTIONS':{
-        #     'options': '-c search_path=django,api'
-        #}
+        'NAME': 'DoubleCodification',
+        'USER': 'owndblcodif',
+        'PASSWORD': 'owndblcodif',
+        'HOST': 'Srvdocker2',
+        'PORT': '5433',
+        'OPTIONS':{
+            'options': '-c search_path=public,projet,j35'
+        }
     }
     
 }
@@ -134,7 +135,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -29,15 +29,16 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email="razanajatovocela@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
+    public=False,
+    permission_classes=(permissions.IsAuthenticated,),
 )
 urlpatterns = [
     path('', index, name='home'),
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # URL de votre app API
-    # URL de Swagger
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # URL alternative : Redoc
+    path('api/', include('api.urls')),   
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),    
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('accounts/', include('django.contrib.auth.urls')),   
+   
+
 ]
